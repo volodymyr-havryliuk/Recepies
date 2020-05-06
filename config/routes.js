@@ -15,6 +15,7 @@ module.exports.routes = {
   //  ╚╩╝╚═╝╚═╝╩  ╩ ╩╚═╝╚═╝╚═╝
   'GET /':                   { action: 'view-homepage-or-redirect' },
   'GET /welcome/:unused?':   { action: 'dashboard/view-welcome' },
+  'GET /recepies/:virtualPageSlug?': { action: 'recepies/view-available-recepies' },
 
   'GET /faq':                { action:   'view-faq' },
   'GET /legal/terms':        { action:   'legal/view-terms' },
@@ -61,5 +62,10 @@ module.exports.routes = {
   'POST  /api/v1/entrance/send-password-recovery-email': { action: 'entrance/send-password-recovery-email' },
   'POST  /api/v1/entrance/update-password-and-login':    { action: 'entrance/update-password-and-login' },
   'POST  /api/v1/deliver-contact-form-message':          { action: 'deliver-contact-form-message' },
+
+
+  'POST  /api/v1/recepies': { action: 'recepies/upload-recepy' },
+  'DELETE /api/v1/recepies/:id': { action: 'recepies/destroy-one-recepy' },
+  'PATCH /api/v1/recepies/:id': { action: 'recepies/update-one-recepy'}
 
 };

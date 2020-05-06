@@ -1,0 +1,92 @@
+<div id="available-recepies" v-cloak>
+  
+  <div class="container">
+    <div class="page-header text-center">
+      <h1>Recepies</h1>
+      <h2>View available recepies, or upload your own recepies.</h2>
+      <div class="header-buttons">
+        <button class="btn btn-outline-primary" @click="clickAddButton()">Add a recepy</button>
+      </div>
+    </div>
+    <div class="listings" v-if="recepies.length > 0">
+      <div class="card" :key="'recepy'+recepy.id" v-for="recepy in recepies">
+        <div class="card-options dropdown">
+          <span class="options-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-v"></span></span>
+          <div class="dropdown-menu dropdown-menu-right">
+            <span class="dropdown-item" @click="clickDeleteRecepy(recepy.id)">Delete</span>
+            <span class="dropdown-item" >Update</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{recepy.dishTitle}}</h5>
+          <p class="card-text">{{recepy.ingredients}}</p>
+          <p class="card-text">{{recepy.instructions}}</p>
+          <p class="card-text">{{recepy.calories}} calories per 100g</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% /* "Upload recepy" modal */ %>
+  <modal v-if="virtualPageSlug === 'new'" v-cloak key="new" @close="closeUploadRecepyModal()">
+    <div class="modal-header">
+      <h5 class="modal-title">Upload a new recepy</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span>&times;</span>
+      </button>
+    </div>
+    <ajax-form action="uploadRecepy" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingUploadRecepyForm" @submitted="submittedUploadRecepyForm($event)">
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="dishTitle">Dish title</label>
+          <input type="text" class="form-control" id="dishTitle" v-model="uploadFormData.dishTitle" aria-describedby="dtHelp" placeholder="Enter dish title">
+          <small id="dtHelp" class="form-text text-muted">Please enter dish title for the recepy.</small>
+          <p class="text-danger" v-if="formErrors.dishTitle">A dish title is required in order to add a new recepy.</p>
+        </div>
+        <div class="form-group">
+          <label for="ingredients">Ingredients</label>
+          <textarea class="form-control" id="ingredients" aria-describedby="ingrHelp" v-model="uploadFormData.ingredients" placeholder="Enter ingredients" rows="3"></textarea>
+          <small id="ingrHelp" class="form-text text-muted">Please enter ingredients for the recepy.</small>
+          <p class="text-danger" v-if="formErrors.ingredients">Ingredients are required in order to add a new recepy.</p>
+        </div>
+        <div class="form-group">
+          <label for="instructions">Instructions</label>
+          <textarea class="form-control" id="instructions" v-model="uploadFormData.instructions" aria-describedby="instHelp" placeholder="Enter instructions" rows="3"></textarea>
+          <p class="text-danger" v-if="formErrors.instructions">Instructions are required in order to add a new recepy.</p>
+        </div>    
+         <div class="form-group">
+          <label for="calories">Calories per 100g</label>
+          <input type="number" class="form-control" id="calories" v-model="uploadFormData.calories" aria-describedby="cHelp" placeholder="Enter calories">
+          <small id="cHelp" class="form-text text-muted">Please enter calories per 100g</small>
+        </div>
+      </div>
+      <div class="modal-footer flex-row-reverse justify-content-start">
+        <ajax-button type="submit" :syncing="syncing" class="btn btn-primary ml-1">Upload recepy</ajax-button>
+        <button data-dismiss="modal" class="btn btn-outline-primary mr-1">Cancel</button>
+      </div>
+    </ajax-form>
+  </modal>
+
+  <% /* "Delete recepy" modal */ %>
+    <modal v-if="confirmDeleteRecepyModalOpen && selectedRecepy" v-cloak key="delete" @close="closeDeleteRecepyModal()">
+      <div class="modal-header">
+        <h5 class="modal-title">Remove this recepy?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span>&times;</span>
+        </button>
+      </div>
+      <ajax-form action="destroyOneRecepy" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingDeleteRecepyForm" @submitted="submittedDeleteRecepyForm()">
+        <div class="modal-body">
+          <p>Are you sure you want to remove the recepy for {{selectedRecepy.dishTitle}}?</p>
+          <p class="text-danger" v-if="cloudError"><small>An error occured while processing your request. Please check your information and try again, or <a href="/contact">contact support</a> if the error persists.</small></p>
+        </div>
+        <div class="modal-footer">
+          <button data-dismiss="modal" class="btn btn-outline-secondary mr-1">Nevermind</button>
+          <ajax-button type="submit" :syncing="syncing" class="btn btn-danger ml-1">Remove</ajax-button>
+        </div>
+      </ajax-form>
+    </modal>
+  <%/* For virtual pages */%>
+  <router-view></router-view>
+</div>
+<%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>
