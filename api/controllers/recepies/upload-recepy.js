@@ -19,14 +19,12 @@ module.exports={
       description: 'Instructions to prepare the dish.'
     },
 
-
     calories: {
       type: 'number',
       description: 'Calories per 100 g.'
     },
   },
   exits: {
-
     success: {
       outputDescription: 'The newly created `Recepy`.',
       outputExample: {}

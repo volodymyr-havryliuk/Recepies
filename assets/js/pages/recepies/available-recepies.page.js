@@ -19,6 +19,7 @@ parasails.registerPage('available-recepies', {
 
     // Modals which aren't linkable:
     confirmDeleteRecepyModalOpen: false,
+    updateRecepyModalOpen: false,
 
     // For tracking client-side validation errors in our form.
     // > Has property set to `true` for each invalid property in `formData`.
@@ -94,6 +95,9 @@ parasails.registerPage('available-recepies', {
       if (!argins.instructions) {
         this.formErrors.instructions = true;
       }
+      if (!argins.calories) {
+        argins.calories = 0;
+      }
 
       if(Object.keys(this.formErrors).length>0){
         return;
@@ -115,6 +119,51 @@ parasails.registerPage('available-recepies', {
 
       //Close the modal
       this._clearUploadRecepyModal();
+    },
+
+
+    clickUpdateRecepy: function(recepyId){
+      this.selectedRecepy = _.find(this.recepies, { id: recepyId });
+      // Open the modal.
+      this.updateRecepyModalOpen = true;
+    },
+
+    closeUpdateRecepyModal: function(){
+      this.selectedRecepy = undefined;
+      this.updateRecepyModalOpen = false;
+      this.cloudError = '';
+    },
+
+    handleUpdateRecepyReturnForm: function (){
+      //Clear out any preexisting error message
+      this.formErrors = {};
+
+      var argins = this.selectedRecepy;
+
+      if (!argins.dishTitle) {
+        this.formErrors.dishTitle = true;
+      }
+      if (!argins.ingredients) {
+        this.formErrors.ingredients = true;
+      }
+      if (!argins.instructions) {
+        this.formErrors.instructions = true;
+      }
+      if (!argins.calories) {
+        argins.calories = 0;
+      }
+
+      if (Object.keys(this.formErrors).length > 0) {
+        return;
+      }
+
+      return argins;
+    },
+
+    submittedUpdateRecepyForm: function(){
+      // Close the modal.
+      this.selectedRecepy = undefined;
+      this.confirmDeleteRecepyModalOpen = false;
     },
 
     clickDeleteRecepy: function (recepyId) {
