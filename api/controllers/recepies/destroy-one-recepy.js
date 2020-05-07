@@ -10,7 +10,7 @@ module.exports = {
   inputs: {
     id: {
       description: 'The id of the recepy to destroy',
-      type: 'number',
+      type: 'string',
       required: true
     }
   },
@@ -27,16 +27,16 @@ module.exports = {
   },
 
 
-  fn: async function ({id}) {
+  fn: async function ({ id }) {
 
-    var recepyToDestroy = await Recepy.find({id});
+    var recepyToDestroy = await Recepy.find({ id });
     if (!recepyToDestroy){
       throw 'notFound';
     }
     //Todo: Verify permissions
 
     // Archive the record
-    await Recepy.archiveOne({id});
+    await Recepy.archiveOne({ id });
   }
 
 

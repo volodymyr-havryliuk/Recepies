@@ -11,7 +11,7 @@ module.exports = {
 
     id: {
       description: 'The id of the recepy to destroy',
-      type: 'number',
+      type: 'string',
       required: true
     },
 
