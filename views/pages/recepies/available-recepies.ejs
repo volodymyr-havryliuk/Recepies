@@ -5,11 +5,12 @@
       <h1>Recepies</h1>
       <h2>View available recepies, or upload your own recepies.</h2>
       <div class="header-buttons">
-        <button class="btn btn-outline-primary" @click="clickAddButton()">Add a recepy</button>
+        <button class="btn btn-outline-primary mb-2" @click="clickAddButton()">Add a recepy</button>
       </div>
     </div>
-    <div class="listings" v-if="recepies.length > 0">
-      <div class="card" :key="'recepy'+recepy.id" v-for="recepy in recepies">
+    <div class="d-flex flex-column" v-if="recepies.length > 0">
+      <div class="p-2">
+      <div class="card bg-light mb-3" :key="'recepy'+recepy.id" v-for="recepy in recepies" >
         <div class="card-options dropdown">
           <span class="options-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-v"></span></span>
           <div class="dropdown-menu dropdown-menu-right">
@@ -23,7 +24,8 @@
           <p class="card-text">{{recepy.instructions}}</p>
           <p class="card-text" v-if="recepy.calories > 0">{{recepy.calories}} calories per 100g</p>
         </div>
-      </div>
+    </div>
+    </div>
     </div>
   </div>
 
