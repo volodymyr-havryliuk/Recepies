@@ -1,7 +1,48 @@
-# recepies
+# Recepies
 
-a [Sails v1](https://sailsjs.com) application
+Lab 4. A [Sails v1](https://sailsjs.com) application
 
+## Getting Started
+
+### Prerequisites
+
+node.js
+sails
+mongodb
+
+### Installing
+```
+npm install
+sails lift
+```
+
+### Demo
+
+#### Create
+![Create](create.PNG "Create")
+
+#### Read
+![Read](read.PNG "Read")
+
+#### Update
+![Update](update.PNG "Update")
+
+#### Delete
+![Delete](delete.PNG "Delete")
+
+## Built With
+
+* [Sailsjs](https://sailsjs.com/) - The web framework used
+* [Node.js](https://nodejs.org/) - JavaScript runtime
+* [Mongodb](https://www.mongodb.com/) - Database
+
+## Authors
+
+* **Volodymyr Havryliuk**
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ### Links
 
